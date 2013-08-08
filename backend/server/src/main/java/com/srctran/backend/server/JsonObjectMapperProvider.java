@@ -10,13 +10,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Provider
 public class JsonObjectMapperProvider implements ContextResolver<ObjectMapper> {
 
-  @Autowired
-  private TestBean testBean;
+  // @Autowired
+  // private TestBean testBean;
 
   private ObjectMapper objectMapper;
 

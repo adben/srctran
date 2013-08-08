@@ -10,8 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
-  <artifactId>project</artifactId>
-  <name>project</name>
+  <artifactId>entity</artifactId>
+  <name>entity</name>
   <packaging>jar</packaging>
   <url>http://srctran.com</url>
   <dependencies>
@@ -31,6 +31,10 @@
     <dependency>
       <groupId>org.glassfish.hk2.external</groupId>
       <artifactId>javax.inject</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
     </dependency>
   </dependencies>
 </project>

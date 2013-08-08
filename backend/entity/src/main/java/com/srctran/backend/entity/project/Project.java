@@ -1,4 +1,4 @@
-package com.srctran.backend.project.data;
+package com.srctran.backend.entity.project;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
