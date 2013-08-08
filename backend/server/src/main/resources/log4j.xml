@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="rootAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/app.log"/>
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
+    </layout>
+  </appender>
+
+	<appender name="springLog" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/spring.log"/>
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="serviceLog" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/service.log"/>
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
+    </layout>
+  </appender>
+	
+	<root>
+    <level value="debug"/>
+    <appender-ref ref="rootAppender"/>
+	</root>
+	
+	<logger name="org.springframework" additivity="false">
+    <level value="debug"/>
+    <appender-ref ref="springLog"/>
+  </logger>
+
+  <logger name="com.srctran" additivity="false">
+    <level value="debug"/>
+    <appender-ref ref="serviceLog"/>
+  </logger>
+
+</log4j:configuration>

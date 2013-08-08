@@ -8,7 +8,7 @@
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
   <bean class="com.srctran.backend.server.TestBean" />
-  
+
   <mvc:annotation-driven/>
 
 </beans>
