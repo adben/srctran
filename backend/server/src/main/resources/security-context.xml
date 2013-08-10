@@ -10,12 +10,30 @@
                            http://www.springframework.org/schema/security/oauth2
                            http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
+  <bean id="userPasswordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+    <constructor-arg value="srctran-user-password-encoder" />
+  </bean>
+  
+  <bean id="dynamoDb" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClient">
+    <constructor-arg>
+      <bean class="com.amazonaws.auth.PropertiesCredentials">
+        <constructor-arg value="${aws.credentials}" />
+      </bean>
+    </constructor-arg>
+    <property name="endpoint" value="${dynamoDb.endpoint}" />
+  </bean>
+  
+  <bean id="userDetailsService" class="com.srctran.backend.entity.user.DynamoUserDetailsService">
+    <property name="dbMapper">
+      <bean class="com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper">
+        <constructor-arg ref="dynamoDb" />
+      </bean>
+    </property>
+  </bean>
+
   <security:authentication-manager>
-    <security:authentication-provider>
-      <security:user-service>
-        <security:user name="amy" password="password" authorities="ROLE_USER" />
-        <security:user name="thomas" password="password" authorities="ROLE_USER" />
-      </security:user-service>
+    <security:authentication-provider user-service-ref="userDetailsService">
+      <security:password-encoder ref="userPasswordEncoder" />
     </security:authentication-provider>
   </security:authentication-manager>
 

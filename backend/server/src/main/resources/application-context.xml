@@ -6,6 +6,10 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+  
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="classpath:global-config.xml" />
+  </bean>
 
   <bean class="com.srctran.backend.server.TestBean" />
 

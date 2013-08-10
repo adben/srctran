@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="aws.credentials">${AWS_CREDENTIALS}</entry>
+  <entry key="dynamoDb.endpoint">dynamodb.us-west-2.amazonaws.com</entry>
+</properties>
