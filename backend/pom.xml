@@ -207,7 +207,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <aws.version>1.5.2</aws.version>
+    <aws.version>1.5.3</aws.version>
     <guava.version>14.0.1</guava.version>
     <hk2.version>2.2.0-b10</hk2.version>
     <jaxrs.api.version>2.0</jaxrs.api.version>

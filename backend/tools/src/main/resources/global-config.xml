@@ -3,5 +3,4 @@
 <properties>
   <entry key="aws.credentials">${AWS_CREDENTIALS}</entry>
   <entry key="dynamoDb.endpoint">dynamodb.us-west-2.amazonaws.com</entry>
-  <entry key="access.token.validity.seconds">1209600</entry>
 </properties>

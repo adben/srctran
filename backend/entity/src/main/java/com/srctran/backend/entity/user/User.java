@@ -29,8 +29,16 @@ public class User implements Serializable {
   public User() {
   }
 
-  protected User(String username) {
+  public User(String username) {
     this.username = username;
+  }
+
+  public User(String username, String email, String password, Status status) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.creationTime = new Date();
+    this.status = status;
   }
 
   @DynamoDBHashKey

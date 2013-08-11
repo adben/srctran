@@ -8,7 +8,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class UserPasswordEncoder {
+public class EncodePassword {
 
   public static void main(String[] args) throws IOException {
     AbstractApplicationContext context =
@@ -16,9 +16,7 @@ public class UserPasswordEncoder {
     context.registerShutdownHook();
 
     try {
-      PasswordEncoder passwordEncoder =
-          context.getBean("userPasswordEncoder", PasswordEncoder.class);
-
+      PasswordEncoder passwordEncoder = context.getBean("passwordEncoder", PasswordEncoder.class);
       System.out.print("Password to encode: ");
       String password = new BufferedReader(new InputStreamReader(System.in)).readLine();
       System.out.print("Encoded password:   ");
