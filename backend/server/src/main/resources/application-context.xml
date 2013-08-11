@@ -11,7 +11,18 @@
     <property name="location" value="classpath:global-config.xml" />
   </bean>
 
-  <bean class="com.srctran.backend.server.TestBean" />
+  <bean id="db" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClient">
+    <constructor-arg>
+      <bean class="com.amazonaws.auth.PropertiesCredentials">
+        <constructor-arg value="${aws.credentials}" />
+      </bean>
+    </constructor-arg>
+    <property name="endpoint" value="${dynamoDb.endpoint}" />
+  </bean>
+  
+  <bean id="dbMapper" class="com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper">
+    <constructor-arg ref="db" />
+  </bean>
 
   <mvc:annotation-driven/>
 

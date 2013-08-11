@@ -1,0 +1,21 @@
+package com.srctran.backend.security;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.srctran.backend.entity.user.UserResource;
+
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+
+  private DynamoDBMapper dbMapper;
+
+  public void setDbMapper(DynamoDBMapper dbMapper) {
+    this.dbMapper = dbMapper;
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username)
+      throws UsernameNotFoundException {
+    return new UserDetails(UserResource.getUserDetails(dbMapper, username));
+  }
+}

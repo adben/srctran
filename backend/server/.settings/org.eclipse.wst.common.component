@@ -7,6 +7,9 @@
         <dependent-module archiveName="entity-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/entity/entity">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="security-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/security/security">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="server"/>
         <property name="java-output-path" value="/server/target/classes"/>
     </wb-module>

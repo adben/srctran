@@ -3,9 +3,9 @@
     "-//APACHE//DTD LOG4J 1.2//EN"
     "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 
-<configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-  <appender name="rootAppender" class="org.apache.log4j.DailyRollingFileAppender">
+  <appender name="appLog" class="org.apache.log4j.DailyRollingFileAppender">
     <param name="File" value="logs/app.log"/>
     <param name="Append" value="true"/>
     <param name="DatePattern" value="'.'yyyy-MM-dd"/>
@@ -14,8 +14,8 @@
     </layout>
   </appender>
 
-	<appender name="springLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/spring.log"/>
+	<appender name="serverLog" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/server.log"/>
     <param name="Append" value="true"/>
     <param name="DatePattern" value="'.'yyyy-MM-dd"/>
     <layout class="org.apache.log4j.PatternLayout">
@@ -23,28 +23,48 @@
     </layout>
   </appender>
 
-  <appender name="serviceLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/service.log"/>
+  <appender name="debugAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/debug.log"/>
     <param name="Append" value="true"/>
     <param name="DatePattern" value="'.'yyyy-MM-dd"/>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
     </layout>
   </appender>
-	
-	<root>
+
+  <appender name="errorAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="logs/error.log"/>
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
+    </layout>
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMin" value="ERROR" />
+      <param name="LevelMax" value="ERROR" />
+    </filter>
+  </appender>
+
+  <logger name="com.amazonaws" additivity="false">
     <level value="debug"/>
-    <appender-ref ref="rootAppender"/>
-	</root>
-	
-	<logger name="org.springframework" additivity="false">
-    <level value="debug"/>
-    <appender-ref ref="springLog"/>
+    <appender-ref ref="serverLog"/>
   </logger>
 
   <logger name="com.srctran" additivity="false">
     <level value="debug"/>
-    <appender-ref ref="serviceLog"/>
+    <appender-ref ref="appLog"/>
+    <appender-ref ref="serverLog"/>
   </logger>
 
-</configuration>
+  <logger name="org.springframework" additivity="false">
+    <level value="debug"/>
+    <appender-ref ref="serverLog"/>
+  </logger>
+
+	<root>
+    <level value="debug"/>
+    <appender-ref ref="debugAppender"/>
+    <appender-ref ref="errorAppender"/>
+	</root>
+
+</log4j:configuration>
