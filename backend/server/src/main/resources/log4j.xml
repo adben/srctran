@@ -5,37 +5,45 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-  <appender name="appLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/app.log"/>
-    <param name="Append" value="true"/>
-    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+  <appender name="appLog" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="logs/app.log" />
+    <param name="Append" value="true" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <param name="FileNamePattern" value="logs/app.log.%d.gz" />
+    </rollingPolicy>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
     </layout>
   </appender>
 
-	<appender name="serverLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/server.log"/>
-    <param name="Append" value="true"/>
-    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+	<appender name="serverLog" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="logs/server.log" />
+    <param name="Append" value="true" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <param name="FileNamePattern" value="logs/server.log.%d.gz" />
+    </rollingPolicy>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
     </layout>
   </appender>
 
-  <appender name="debugLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/debug.log"/>
-    <param name="Append" value="true"/>
-    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+  <appender name="debugLog" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="logs/debug.log" />
+    <param name="Append" value="true" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <param name="FileNamePattern" value="logs/debug.log.%d.gz" />
+    </rollingPolicy>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
     </layout>
   </appender>
 
-  <appender name="errorLog" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="logs/error.log"/>
-    <param name="Append" value="true"/>
-    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+  <appender name="errorLog" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="logs/error.log" />
+    <param name="Append" value="true" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <param name="FileNamePattern" value="logs/error.log.%d.gz" />
+    </rollingPolicy>
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %p [%c{1}] %m%n" />
     </layout>
@@ -46,25 +54,25 @@
   </appender>
 
   <logger name="com.amazonaws" additivity="false">
-    <level value="debug"/>
-    <appender-ref ref="serverLog"/>
+    <level value="debug" />
+    <appender-ref ref="serverLog" />
   </logger>
 
   <logger name="com.srctran" additivity="false">
-    <level value="debug"/>
-    <appender-ref ref="appLog"/>
-    <appender-ref ref="serverLog"/>
+    <level value="debug" />
+    <appender-ref ref="appLog" />
+    <appender-ref ref="serverLog" />
   </logger>
 
   <logger name="org.springframework" additivity="false">
-    <level value="debug"/>
-    <appender-ref ref="serverLog"/>
+    <level value="debug" />
+    <appender-ref ref="serverLog" />
   </logger>
 
 	<root>
-    <level value="debug"/>
-    <appender-ref ref="debugLog"/>
-    <appender-ref ref="errorLog"/>
+    <level value="debug" />
+    <appender-ref ref="debugLog" />
+    <appender-ref ref="errorLog" />
 	</root>
 
 </log4j:configuration>

@@ -10,7 +10,8 @@
                            http://www.springframework.org/schema/security/oauth2
                            http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
-  <bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+  <bean id="passwordEncoder"
+        class="org.springframework.security.crypto.password.StandardPasswordEncoder">
     <constructor-arg value="srctran-user-password-encoder" />
   </bean>
   
@@ -100,8 +101,10 @@
                  entry-point-ref="oauthAuthenticationEntryPoint"
                  use-expressions="true">
     <security:anonymous enabled="false" />
+    <security:intercept-url pattern="/resources/user/~/create"
+                            access="#oauth2.clientHasRole('ROLE_CLIENT') and #oauth2.hasScope('trust')" />
     <security:intercept-url pattern="/resources/**"
-                            access="#oauth2.clientHasRole('ROLE_CLIENT') and #oauth2.hasScope('read') and hasRole('ROLE_USER')" />
+                            access="#oauth2.clientHasRole('ROLE_CLIENT') and #oauth2.hasScope('write') and hasRole('ROLE_USER')" />
     <security:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
     <security:access-denied-handler ref="oauthAccessDeniedHandler" />
     <security:expression-handler ref="oauthWebExpressionHandler" />

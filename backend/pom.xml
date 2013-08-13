@@ -167,6 +167,12 @@
               <artifactId>log4j</artifactId>
               <version>${log4j.version}</version>
             </dependency>
+
+            <dependency>
+              <groupId>log4j</groupId>
+              <artifactId>apache-log4j-extras</artifactId>
+              <version>${log4j.extras.version}</version>
+            </dependency>
           </dependencies>
         </plugin>
 
@@ -215,6 +221,7 @@
     <jetty.version>9.0.4.v20130625</jetty.version>
     <junit.version>4.11</junit.version>
     <log4j.version>1.2.17</log4j.version>
+    <log4j.extras.version>1.1</log4j.extras.version>
     <properties.maven.plugin.version>1.0-alpha-2</properties.maven.plugin.version>
     <slf4j.version>1.7.5</slf4j.version>
     <spring.version>3.2.3.RELEASE</spring.version>

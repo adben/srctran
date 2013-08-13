@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshalling;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
@@ -50,7 +48,6 @@ public class User implements Serializable {
     this.username = username;
   }
 
-  @JsonIgnore
   @DynamoDBRangeKey
   @DynamoDBMarshalling(marshallerClass = TypeMarshaller.class)
   public Type getType() {
@@ -69,7 +66,6 @@ public class User implements Serializable {
     this.email = email;
   }
 
-  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -101,7 +97,7 @@ public class User implements Serializable {
 
   public static enum Status {
     ACTIVE,
-    CONFIRMED
+    INITIALIZED
   }
 
   public static class TypeMarshaller extends EnumMarshaller<Type> {
