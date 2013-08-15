@@ -33,6 +33,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.srctran.backend.entity.common.DynamoUtils;
 import com.srctran.backend.entity.common.Result;
+import com.srctran.backend.entity.user.User.ValidationError;
 
 @Singleton
 @Path("/user")
@@ -55,21 +56,25 @@ public class UserResource {
 
   @GET
   @Path("{username}")
-  public Response getUser(@PathParam("username") String username) {
+  public Response get(@PathParam("username") String username) {
     String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
     if ("~".equals(username) || currentUsername.equals(username)) {
       User user = loadUser(dbMapper, currentUsername);
-      user.setStatus(null);
-      user.setPassword(null);
+      user.setPassword("******");
       return Response.ok().entity(user).build();
     } else {
-      return Response.status(Status.UNAUTHORIZED).entity(new Result("Not authorized")).build();
+      return Result.UNAUTHORIZED;
     }
   }
 
   @POST
   @Path("~/create")
-  public Response createUser(User user) {
+  public Response create(User user) {
+    ValidationError error = user.validate();
+    if (error != null) {
+      return Response.status(Status.BAD_REQUEST).entity(new Result(error.toString())).build();
+    }
+
     String username = user.getUsername();
     String email = user.getEmail();
     String password = passwordEncoder.encode(user.getPassword());
@@ -96,7 +101,7 @@ public class UserResource {
                      .build();
     }
     LOG.info(String.format("User %s created.", username));
-    return Response.ok().build();
+    return Result.SUCCESS;
   }
 
   @POST
@@ -105,15 +110,15 @@ public class UserResource {
       PasswordChangeBody body) {
     String oldPassword = body.getOldPassword();
     if (Strings.isNullOrEmpty(oldPassword)) {
-      return Response.status(Status.BAD_REQUEST).entity(new Result("Missing old password")).build();
+      return Result.MISSING_OLD_PASSWORD;
     }
     String newPassword = body.getNewPassword();
     if (Strings.isNullOrEmpty(newPassword)) {
-      return Response.status(Status.BAD_REQUEST).entity(new Result("Missing new password")).build();
+      return Result.MISSING_NEW_PASSWORD;
     }
     String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
     if (!"~".equals(username) && !currentUsername.equals(username)) {
-      return Response.status(Status.UNAUTHORIZED).entity(new Result("Not authorized")).build();
+      return Result.UNAUTHORIZED;
     }
 
     User user = loadUser(dbMapper, currentUsername);
@@ -129,9 +134,9 @@ public class UserResource {
                                      "password", passwordEncoder.encode(newPassword)))
                                  .withReturnValues(ReturnValue.NONE);
       db.updateItem(request);
-      return Response.ok().entity(new Result("Success")).build();
+      return Result.SUCCESS;
     } else {
-      return Response.status(Status.BAD_REQUEST).entity(new Result("Wrong old password")).build();
+      return Result.WRONG_PASSWORD;
     }
   }
 

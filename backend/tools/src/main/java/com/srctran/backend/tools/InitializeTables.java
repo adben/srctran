@@ -27,6 +27,7 @@ public class InitializeTables {
   private static final Logger LOG = Logger.getLogger(InitializeTables.class);
 
   private static final String OAUTH_TOKENS_TABLE = "oauth_tokens";
+  private static final String PROJECTS_TABLE = "projects";
   private static final String USERS_TABLE = "users";
   private static final String[] TABLES = new String[] {OAUTH_TOKENS_TABLE, USERS_TABLE};
 
@@ -63,6 +64,7 @@ public class InitializeTables {
     waitForTableDeletion();
 
     createUsersTable();
+    createProjectsTable();
     createOauthTokensTable();
 
     waitForTableCreation();
@@ -129,6 +131,20 @@ public class InitializeTables {
             new KeySchemaElement().withKeyType(KeyType.RANGE).withAttributeName("type"))
         .withAttributeDefinitions(
             new AttributeDefinition().withAttributeName("username").withAttributeType(ScalarAttributeType.S),
+            new AttributeDefinition().withAttributeName("type").withAttributeType(ScalarAttributeType.S));
+    db.createTable(createTableRequest);
+  }
+
+  private static void createProjectsTable() {
+    CreateTableRequest createTableRequest =
+        new CreateTableRequest().withTableName(PROJECTS_TABLE)
+        .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(1l)
+                                                              .withWriteCapacityUnits(1l))
+        .withKeySchema(
+            new KeySchemaElement().withKeyType(KeyType.HASH).withAttributeName("key"),
+            new KeySchemaElement().withKeyType(KeyType.RANGE).withAttributeName("type"))
+        .withAttributeDefinitions(
+            new AttributeDefinition().withAttributeName("key").withAttributeType(ScalarAttributeType.S),
             new AttributeDefinition().withAttributeName("type").withAttributeType(ScalarAttributeType.S));
     db.createTable(createTableRequest);
   }

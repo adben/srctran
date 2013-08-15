@@ -2,6 +2,7 @@ package com.srctran.backend.entity.user;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,6 +10,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshalling;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.google.common.base.Strings;
 import com.srctran.backend.entity.common.EnumMarshaller;
 
 @XmlRootElement(name = "user")
@@ -16,6 +18,8 @@ import com.srctran.backend.entity.common.EnumMarshaller;
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-z][a-z0-9._]+$");
 
   private String username;
   private Type type = Type.USER;
@@ -28,6 +32,9 @@ public class User implements Serializable {
   }
 
   public User(String username) {
+    if (username != null) {
+      username = username.toLowerCase();
+    }
     this.username = username;
   }
 
@@ -91,6 +98,35 @@ public class User implements Serializable {
     this.status = status;
   }
 
+  public ValidationError validate() {
+    // Username
+    if (Strings.isNullOrEmpty(username)) {
+      return ValidationError.MISSING_USERNAME;
+    }
+    if (username.length() < 3) {
+      return ValidationError.USERNAME_TOO_SHORT;
+    }
+    if (username.length() > 10) {
+      return ValidationError.USERNAME_TOO_LONG;
+    }
+    if (!USERNAME_PATTERN.matcher(username).matches()) {
+      return ValidationError.USERNAME_CONTAINS_INVALID_CHARACTERS;
+    }
+
+    // Password
+    if (Strings.isNullOrEmpty(password)) {
+      return ValidationError.MISSING_PASSWORD;
+    }
+    if (password.length() < 4) {
+      return ValidationError.PASSWORD_TOO_SHORT;
+    }
+    if (password.length() > 16) {
+      return ValidationError.PASSWORD_TOO_LONG;
+    }
+
+    return null;
+  }
+
   public static enum Type {
     USER
   }
@@ -98,6 +134,22 @@ public class User implements Serializable {
   public static enum Status {
     ACTIVE,
     INITIALIZED
+  }
+
+  public static enum ValidationError {
+    MISSING_USERNAME,
+    USERNAME_TOO_LONG,
+    USERNAME_TOO_SHORT,
+    USERNAME_CONTAINS_INVALID_CHARACTERS,
+    MISSING_PASSWORD,
+    PASSWORD_TOO_LONG,
+    PASSWORD_TOO_SHORT;
+
+    @Override
+    public String toString() {
+      String name = name().replace('_', ' ');
+      return name.charAt(0) + name().substring(1).toLowerCase();
+    }
   }
 
   public static class TypeMarshaller extends EnumMarshaller<Type> {
