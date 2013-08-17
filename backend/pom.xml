@@ -46,6 +46,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-runtime</artifactId>
+        <version>${antlr4.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.glassfish.hk2.external</groupId>
         <artifactId>javax.inject</artifactId>
         <version>${hk2.version}</version>
@@ -139,10 +145,22 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.plugin.version}</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>6</source>
+            <target>6</target>
+            <showWarnings>true</showWarnings>
+            <showDeprecation>true</showDeprecation>
+            <compilerArguments>
+              <Xlint />
+            </compilerArguments>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build.helper.maven.plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -196,9 +214,29 @@
                     <ignore />
                   </action>
                 </pluginExecution>
+
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-maven-plugin</artifactId>
+                    <versionRange>[4.0,)</versionRange>
+                    <goals>
+                      <goal>antlr4</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4-maven-plugin</artifactId>
+          <version>${antlr4.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -206,6 +244,7 @@
 
   <modules>
     <module>entity</module>
+    <module>parser</module>
     <module>security</module>
     <module>server</module>
     <module>tools</module>
@@ -213,7 +252,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <antlr4.version>4.0</antlr4.version>
     <aws.version>1.5.3</aws.version>
+    <build.helper.maven.plugin.version>1.8</build.helper.maven.plugin.version>
     <guava.version>14.0.1</guava.version>
     <hk2.version>2.2.0-b10</hk2.version>
     <jaxrs.api.version>2.0</jaxrs.api.version>
@@ -222,6 +264,7 @@
     <junit.version>4.11</junit.version>
     <log4j.version>1.2.17</log4j.version>
     <log4j.extras.version>1.1</log4j.extras.version>
+    <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
     <properties.maven.plugin.version>1.0-alpha-2</properties.maven.plugin.version>
     <slf4j.version>1.7.5</slf4j.version>
     <spring.version>3.2.3.RELEASE</spring.version>
